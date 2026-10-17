@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Taskpad</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div>
+        <h1>Taskpad</h1>
+        <p class="date" id="today"></p>
+      </div>
+      <div class="tally" id="tally" aria-live="polite"></div>
+    </header>
+
+    <div class="bar" aria-hidden="true"><span id="progress"></span></div>
+
+    <form class="add" id="add-form" autocomplete="off">
+      <input type="text" id="new-task" placeholder="Add a task and press Enter" maxlength="200" aria-label="New task">
+      <button type="submit" class="btn-primary" id="add-btn">Add</button>
+    </form>
+
+    <div class="filters" role="group" aria-label="Filter tasks">
+      <button type="button" data-filter="all" aria-pressed="true">All</button>
+      <button type="button" data-filter="active" aria-pressed="false">Active</button>
+      <button type="button" data-filter="done" aria-pressed="false">Completed</button>
+    </div>
+
+    <div id="list-host"></div>
+
+    <footer>
+      <button type="button" class="link" id="clear-done">Clear completed</button>
+      <span class="status" id="status"></span>
+    </footer>
+
+    <details>
+      <summary>How this works</summary>
+      <dl>
+        <dt>state</dt><dd>One array of task objects (id, text, done, created). Every change updates the array, then calls render().</dd>
+        <dt>DOM</dt><dd>render() rebuilds the list with createElement and textContent, so typed text is never parsed as HTML.</dd>
+        <dt>events</dt><dd>The form's submit event covers both the Add button and the Enter key. One click listener on the list handles every checkbox and delete button (event delegation).</dd>
+        <dt>storage</dt><dd>save() writes the array to localStorage as JSON after each change. On load, JSON.parse reads it back, so tasks survive a reload.</dd>
+      </dl>
+    </details>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
